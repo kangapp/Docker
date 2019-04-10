@@ -25,7 +25,7 @@ sudo gpasswd -a vagrant docker（加入docker组）
 > - image本身是只读的
 ##### Image的获取
 - Build form Dockerfile
-> docker build -t name:tag
+> docker build -t name:tag .
 - Pull form Registry
 > docker pull [image](https://hub.docker.com/)
 
@@ -36,8 +36,6 @@ sudo gpasswd -a vagrant docker（加入docker组）
 ##### Container命令
 - docker commit [image name] [new image]  
 把修改过的container创建image
-- docker build -t name:tag .
-根据当前目录的dockerfile创建image
 - docker inspect [container id]
 获取container详细信息
 
