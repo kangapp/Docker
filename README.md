@@ -103,13 +103,47 @@ docker exec -it [container id] /bin/bash
 docker exec -it [container id] python
 ```
 
-### Docker 持久化
+## Docker Network
 
-#### 基于本地文件系统的Volume
+### 常用工具
+
+> ping ：验证ip的可达性  
+ping [ip地址]  
+> telnet：验证服务的可用性  
+telnet [ip] [port]  
+
+### 网络命名空间
+
+> 容器有独立的网络命名空间，并且能相互ping通  
+> ip a查看网络
+
+### Docker Bridge
+
+![bridge](image/bridge.png)
+创建容器默认会连接bridge，通过veth pair进行连接，通过NAT访问外网
+
+> docker network ls  //查看network列表  
+> docker network inspect [network id] //查看network的详细信息
+> brctl show //查看所有bridge网络的详细信息  
+
+#### 创建自定义bridge
+
+>          docker network create -d bridge my-bridge  //创建bridge网络
+>          docker run -d --name test3 --network my-bridge busybox /bin/sh -c "while true; do sleep 3600; done"
+
+### Docker link
+
+> #创建两个容器，test2容器通过--link 指定test1,在test2容器内部就可以使用test1替代test1容器的ip地址  
+> docker run -d --name test1  busybox /bin/sh -c "while true; do sleep 3600; done"  
+> docker run -d --name test2 --link test1 busybox /bin/sh -c "while true; do sleep 3600; done"  
+
+## Docker 持久化
+
+### 基于本地文件系统的Volume
 
 > 可以在执行Docker create或Docker run时，通过-v参数将主句的目录作为容器的数据卷。  
 
-##### Volume的类型
+#### Volume的类型
 
 - 受管理的data Volume，由docker后台自动创建。  
 Doclerfile: VOLUME /var/lib/mysql  
@@ -117,4 +151,4 @@ docker run -v mysql:/var/lib/mysql
 - 绑定挂载的Volume，具体挂载位置可以由用户指定。
 docker run -v [本地目录]:[容器目录]
 
-#### 基于plugin和Volume
+### 基于plugin和Volume
