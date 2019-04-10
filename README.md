@@ -122,26 +122,26 @@ telnet [ip] [port]
 ![bridge](image/bridge.png)
 创建容器默认会连接bridge，通过veth pair进行连接，通过NAT访问外网
 
-> docker network ls  //查看network列表  
-> docker network inspect [network id] //查看network的详细信息
-> brctl show //查看所有bridge网络的详细信息  
+>     docker network ls  //查看network列表  
+>     docker network inspect [network id] //查看network的详细信息
+>     brctl show //查看所有bridge网络的详细信息  
 
 #### 创建自定义bridge
 
->          docker network create -d bridge my-bridge  //创建bridge网络
->          docker run -d --name test3 --network my-bridge busybox /bin/sh -c "while true; do sleep 3600; done"
+>     docker network create -d bridge my-bridge  //创建bridge网络
+>     docker run -d --name test3 --network my-bridge busybox /bin/sh -c "while true; do sleep 3600; done"
 
 ### Docker link
 
-> #创建两个容器，test2容器通过--link 指定test1,在test2容器内部就可以使用test1替代test1容器的ip地址  
-> docker run -d --name test1  busybox /bin/sh -c "while true; do sleep 3600; done"  
-> docker run -d --name test2 --link test1 busybox /bin/sh -c "while true; do sleep 3600; done"  
+>     #创建两个容器，test2容器通过--link 指定test1,在test2容器内部就可以使用test1替代test1容器的ip地址  
+>     docker run -d --name test1  busybox /bin/sh -c "while true; do sleep 3600; done"  
+>     docker run -d --name test2 --link test1 busybox /bin/sh -c "while true; do sleep 3600; done"  
 
 ## Docker 持久化
 
 ### 基于本地文件系统的Volume
 
-> 可以在执行Docker create或Docker run时，通过-v参数将主句的目录作为容器的数据卷。  
+>     可以在执行Docker create或Docker run时，通过-v参数将主句的目录作为容器的数据卷。  
 
 #### Volume的类型
 
