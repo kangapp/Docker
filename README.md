@@ -1,5 +1,21 @@
 # Docker
 
+## Docker简介
+
+### Linux容器
+
+> 对进程进行隔离
+
+### Docker是什么
+
+> Docker属于Linux容器的一种封装，提供简单易用的容器使用接口
+
+### Docker的用途
+
+- 提供一次性的环境
+- 提供弹性的云服务
+- 组建微服务架构
+
 ## Docker安装
 
 ### Docker for Centos
@@ -43,6 +59,11 @@ sudo gpasswd -a vagrant docker（加入docker组）
 
 > docker pull [image](https://hub.docker.com/)
 
+#### Image命令
+
+- docker image ls
+- docker image rm [imageName]
+
 ### Container
 
 > - 通过Image创建
@@ -68,6 +89,7 @@ RUN yum update && yum install -y vim
 #ADD 添加本地文件到工作目录并解压
 #COPY 添加本地文件到工作目录
 #ENV 设置常量
+#EXPOSE 将端口暴露出来
 ```
 
 > RUN:执行命令并创建新的Image Layer  
