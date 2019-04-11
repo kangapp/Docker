@@ -155,6 +155,10 @@ docker run -d --name test --network host busybox /bin/sh -c "while true; do slee
 
 >     docker run --name web -d -p 8080:80 nginx //容器80端口映射本地8080端口
 
+### 多容器复杂应用的部署
+
+- [基于python flask和redis的web应用部署](https://github.com/kangapp/Docker/src/flask-redis/)
+
 ### 多机器通信
 
 
