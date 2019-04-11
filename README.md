@@ -305,7 +305,7 @@ docker-compose exec mysql bash
 采用模板2的docker-compose.yml，并把ports移除  
 # 启动三个web服务
 docker-compose up scale web=3 -d  
-
+[负载均衡案例](https://github.com/kangapp/Docker/tree/master/src/lb-scale)
 ```
 
 ## 实践项目
@@ -313,3 +313,5 @@ docker-compose up scale web=3 -d
 | 项目名                              | 介绍                                  |
 | ----------------------------------- | -------------------------------------- |
 | [基于python flask和redis的web应用部署](https://github.com/kangapp/Docker/tree/master/src/flask-redis) | 多容器复杂应用的部署 |
+| [负载均衡案例](https://github.com/kangapp/Docker/tree/master/src/lb-scale) | Docker Compose |
+| [投票案例](https://github.com/kangapp/Docker/tree/master/src/example-voting-app) | Docker Compose复杂应用 |
