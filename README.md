@@ -170,12 +170,143 @@ docker run -d --name test --network host busybox /bin/sh -c "while true; do slee
 #### Volume的类型
 
 - 受管理的data Volume，由docker后台自动创建。  
-Doclerfile: VOLUME /var/lib/mysql  
-docker run -v mysql:/var/lib/mysql
+
+```bash
+# 通过Dockerfile指定volume
+Dockerfile:  
+     容器内部路径
+     VOLUME /var/lib/mysql
+# 查看volume列表
+docker volume ls
+# volume名字默认是随机生成的，可以指定名字【mysql】
+docker run -v mysql:/var/lib/mysql --name mysql1 mysql
+# 这样可以使用名字叫【mysql】的volume
+docker run -v mysql:/var/lib/mysql --name mysql2 mysql
+```
+
 - 绑定挂载的Volume，具体挂载位置可以由用户指定。
 docker run -v [本地目录]:[容器目录]
 
 ### 基于plugin和Volume
+
+## Docker Compose
+
+```txt
+Docker Compose是一个工具  
+可以通过yml文件定义多容器的docker应用  
+通过yml文件的定义去创建或者管理多个容器  
+```
+
+### Docker Compose的安装
+
+#### Linux环境需要单独安装
+
+>     sudo curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose  
+
+>     sudo chmod +x /usr/local/bin/docker-compose
+
+>     docker-compose --version
+
+### docker-compose.yml
+
+#### 案例模板
+
+```bash
+version: '3'
+
+services:
+
+  wordpress:
+    image: wordpress
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_PASSWORD: root
+    networks:
+      - my-bridge
+
+  mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - my-bridge
+
+volumes:
+  mysql-data:
+
+networks:
+  my-bridge:
+    driver: bridge
+```
+
+```bash
+version: "3"
+
+services:
+
+  redis:
+    image: redis
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:5000
+    environment:
+      REDIS_HOST: redis
+
+```
+
+#### 三大概念
+
+- Services
+
+```text
+一个service代表一个container  
+Service的启动类似docker run，可以指定network和volume
+```
+
+- Networks
+- Volumes
+
+### Docker Compose常用命令
+
+```bash
+# 根据-f指定的yml文件启动，默认【docker-compose.yml】，可不加-f  
+docker-compose -f docker-compose.yml up [-d]
+```
+
+```bash
+# 获取docker compose列表  
+docker-compose ps
+```
+
+```bash
+# 停止并移除  
+docker-compose down  
+# 停止  
+docker-compose stop  
+```
+
+```bash
+# 在运行的容器中执行命令，不用加-it  
+docker-compose exec mysql bash  
+```
+
+### 水平扩展和负载均衡
+
+```bash
+采用模板2的docker-compose.yml，并把ports移除  
+# 启动三个web服务
+docker-compose up scale web=3 -d  
+
+```
 
 ## 实践项目
 
