@@ -163,7 +163,9 @@ docker run -d --name test --network host busybox /bin/sh -c "while true; do slee
 
 ### 基于本地文件系统的Volume
 
->     可以在执行Docker create或Docker run时，通过-v参数将主句的目录作为容器的数据卷。  
+```bash
+可以在执行Docker create或Docker run时，通过-v参数将主句的目录作为容器的数据卷。  
+```
 
 #### Volume的类型
 
