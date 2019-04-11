@@ -1,5 +1,46 @@
 # Docker
 
+## 目录
+
+   * [Docker](#docker)
+      * [Docker简介](#docker简介)
+         * [Linux容器](#linux容器)
+         * [Docker是什么](#docker是什么)
+         * [Docker的用途](#docker的用途)
+      * [Docker安装](#docker安装)
+         * [Docker for Centos](#docker-for-centos)
+      * [Docker 架构和底层技术](#docker-架构和底层技术)
+         * [Docker Engine](#docker-engine)
+         * [Docker Image](#docker-image)
+            * [Image的获取](#image的获取)
+            * [Image命令](#image命令)
+         * [Container](#container)
+            * [Container命令](#container命令)
+         * [Docker File](#docker-file)
+         * [容器的操作](#容器的操作)
+      * [Docker Network](#docker-network)
+         * [常用工具](#常用工具)
+         * [网络命名空间](#网络命名空间)
+         * [Docker Bridge](#docker-bridge)
+            * [创建自定义bridge](#创建自定义bridge)
+         * [Docker link](#docker-link)
+         * [Docker 容器端口本地映射](#docker-容器端口本地映射)
+         * [多机器通信](#多机器通信)
+      * [Docker 持久化](#docker-持久化)
+         * [基于本地文件系统的Volume](#基于本地文件系统的volume)
+            * [Volume的类型](#volume的类型)
+         * [基于plugin和Volume](#基于plugin和volume)
+      * [Docker Compose](#docker-compose)
+         * [Docker Compose的安装](#docker-compose的安装)
+            * [Linux环境需要单独安装](#linux环境需要单独安装)
+         * [docker-compose.yml](#docker-composeyml)
+            * [案例模板](#案例模板)
+            * [三大概念](#三大概念)
+         * [Docker Compose常用命令](#docker-compose常用命令)
+         * [水平扩展和负载均衡](#水平扩展和负载均衡)
+      * [Docker Swarm](#docker-swarm)
+      * [实践项目](#实践项目)
+
 ## Docker简介
 
 ### Linux容器
@@ -305,8 +346,15 @@ docker-compose exec mysql bash
 采用模板2的docker-compose.yml，并把ports移除  
 # 启动三个web服务
 docker-compose up scale web=3 -d  
-[负载均衡案例](https://github.com/kangapp/Docker/tree/master/src/lb-scale)
 ```
+
+[负载均衡案例](https://github.com/kangapp/Docker/tree/master/src/lb-scale)
+
+## Docker Swarm
+
+> Docker Swarm是Docker引擎内置的集群管理和编排工具  
+
+![架构](image/swarm-diagram.png)
 
 ## 实践项目
 
