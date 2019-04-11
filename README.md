@@ -225,7 +225,7 @@ docker run -v mysql:/var/lib/mysql --name mysql1 mysql
 docker run -v mysql:/var/lib/mysql --name mysql2 mysql
 ```
 
-- 绑定挂载的Volume，具体挂载位置可以由用户指定。
+- 绑定挂载的Volume，具体挂载位置可以由用户指定。  
 docker run -v [本地目录]:[容器目录]
 
 ### 基于plugin和Volume
@@ -394,16 +394,31 @@ docker service create --replicas 3 -p 80:80 --name nginx nginx:1.13.7-alpine
 ```
 
 ```bash
-#查看服务  
+#查看服务列表  
 docker service ls  
+
 ID                  NAME                MODE                REPLICAS            IMAGE                 PORTS
 kc57xffvhul5        nginx               replicated          3/3                 nginx:1.13.7-alpine   *:80->80/tcp
 ```
 
 ```bash
+#查看某个服务详情  
+docker service ps nginx  
+
+ID                  NAME                IMAGE                 NODE                DESIRED STATE       CURRENT STATE                ERROR               PORTS
+pjfzd39buzlt        nginx.1             nginx:1.13.7-alpine   swarm2              Running             Running about a minute ago
+hy9eeivdxlaa        nginx.2             nginx:1.13.7-alpine   swarm1              Running             Running about a minute ago
+36wmpiv7gmfo        nginx.3             nginx:1.13.7-alpine   swarm3              Running             Running about a minute ago
 ```
 
 ```bash
+#服务伸缩  
+docker service scale nginx=5  
+```
+
+```bash
+#删除服务  
+docker service rm nginx  
 ```
 
 ## 实践项目
