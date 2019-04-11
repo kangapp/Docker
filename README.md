@@ -354,7 +354,57 @@ docker-compose up scale web=3 -d
 
 > Docker Swarm是Docker引擎内置的集群管理和编排工具  
 
-![架构](image/swarm-diagram.png)
+![架构](image/swarm-diagram.png)  
+![服务和任务](image/services-diagram.png)  
+
+### 创建Docker Swarm集群
+
+#### 创建三个docker主机
+
+todo  //三种方式  
+
+#### 搭建集群环境
+
+![Swarm 初始化](image/Swarm_init.png)  
+
+```bash
+#选择一台Docker主机作为管理节点，并在管理节点初始化一个Swarm集群  
+docker swarm init --advertise-addr=19.168.217.100
+```
+
+```bash
+#添加两个Docker主机作为工作节点，在工作节点输入以下命令加入集群  
+docker swarm join --token SWMTKN-1-2gdd5d7zgvq6e4pemhd4w7527a60h7nh97arxolfmuhfx8i46s-1whpjrp8nhajagvgiwuo3f6d0 19.168.217.100:2377
+```
+
+![查看集群](image/Swarm_status.png)  
+
+```bash
+#进入管理节点查看集群  
+docker node ls
+```
+
+### 部署服务
+
+> 使用docker service命令管理Swarm集群，只能在管理节点运行
+
+```bash
+#新建服务，在Swarm集群运行一个名为nginx的服务  
+docker service create --replicas 3 -p 80:80 --name nginx nginx:1.13.7-alpine
+```
+
+```bash
+#查看服务  
+docker service ls  
+ID                  NAME                MODE                REPLICAS            IMAGE                 PORTS
+kc57xffvhul5        nginx               replicated          3/3                 nginx:1.13.7-alpine   *:80->80/tcp
+```
+
+```bash
+```
+
+```bash
+```
 
 ## 实践项目
 
