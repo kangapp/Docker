@@ -157,6 +157,8 @@ docker run -d --name test --network host busybox /bin/sh -c "while true; do slee
 
 ### 多机器通信
 
+- overlay网络和etcd实现（有时间再研究4-10）
+
 ## Docker 持久化
 
 ### 基于本地文件系统的Volume
