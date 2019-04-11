@@ -18,3 +18,8 @@ docker build -t kangapp/redis .
 # 通过--link绑定redis容器的ip，并通过-e设置环境变量，在app程序中使用REDIS_HOST
 docker run -d -p 5000:5000 --link redis --name flask-redis -e REDIS_HOST=redis kangapp/redis
 ```
+
+```bash
+# 访问本地的5000端口获取结果
+curl 127.0.0.1:5000
+```
