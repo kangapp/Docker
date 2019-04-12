@@ -421,6 +421,26 @@ docker service scale nginx=5
 docker service rm nginx  
 ```
 
+## Kubenentes(k8s)
+
+![k8s架构](/image/k8s_architecture.png)  
+![k8s master](/image/k8s_master.png)  
+![k8s node](/image/k8s_node.png)  
+![k8s流程](/image/architecture.png)  
+
+### k8s环境搭建
+
+#### Minikube搭建k8s单节点环境
+
+##### 安装步骤
+
+* 安装[VirtualBox](https://www.virtualbox.org/wiki/Downloads)  
+
+* 安装[kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-binary-using-curl)  
+`kubectl cluster-info //检查集群状态`  
+
+* 安装[Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-minikube)  
+
 ## 实践项目
 
 | 项目名                              | 介绍                                  |
