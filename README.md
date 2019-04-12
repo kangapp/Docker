@@ -440,6 +440,11 @@ docker service rm nginx
 `kubectl cluster-info //检查集群状态`  
 
 * 安装[Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-minikube)  
+`minikube ssh  //进入虚拟机`
+
+### k8s案例
+
+* [传送门]()
 
 ## 实践项目
 
