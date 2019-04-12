@@ -423,8 +423,51 @@ docker service rm nginx
 
 ## Kubenentes(k8s)
 
+### 简介
+
+```bash
+Kubernetes是一个可移植，可扩展的开源平台，用于管理容器化工作负载和服务，有助于声明性配置和自动化。  
+* 容器的平台  
+* 微服务平台  
+* 便携式云平台  
+```
+
+### k8s整体架构
+
 ![k8s架构](/image/k8s_architecture.png)  
+
+### k8s Master
+
 ![k8s master](/image/k8s_master.png)  
+
+* API Server  
+
+```bash
+k8s控制集群的前端组件，用于水平扩展集群
+```
+
+* etcd  
+
+```bash
+一致且高可用的键值存储，用于k8s所有集群数据的后背存储
+```
+
+* Scheduler管理  
+
+```bash
+监控新建的没有分配节点的pod，挑选节点让其运行
+```
+
+* Controller-manager  
+
+```bash
+运行controller的组件  
+Node Controller：当节点出现故障时复杂通知和响应  
+Replication Controller：负责为系统中的每个复制控制器对象维护正确数量的pod  
+Endpoint Controller：连接Services和pods  
+Service Account & Token Controllers：为新命名空间创建默认帐户和API访问令牌  
+```
+
 ![k8s node](/image/k8s_node.png)  
 ![k8s流程](/image/architecture.png)  
 
@@ -441,6 +484,34 @@ docker service rm nginx
 
 * 安装[Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-minikube)  
 `minikube ssh  //进入虚拟机`
+
+### ReplicationController
+
+>     ReplicationController确保一次运行指定数量的pod副本
+
+#### 模板
+
+```bash
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nginx
+spec:
+  replicas: 3
+  selector:
+    app: nginx
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+```
 
 ### k8s案例
 
