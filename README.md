@@ -73,17 +73,23 @@
 
 ## Docker 架构和底层技术
 
-> Docker提供了一个开发，打包，运行app的平台
+> Docker是一个开发，运输和运行应用程序的开放平台  
+
+![Docker Architecture](image/Docker_Architecture.png)
 
 ### Docker Engine
 
-- 后台进程（dockerd）
-- REST API Server
-- CLI接口 （docker）
+![Docker Engine](image/Docker_Engine.png)
+
+> CLI使用Docker REST API通过脚本或直接CLI命令控制Docker守护程序或与Docker守护程序交互。许多其他Docker应用程序使用底层API和CLI。
+
+- 后台守护进程（dockerd）
+- REST API Server，和daemon进行通信
+- 命令行界面 （docker）
+
+> 守护程序创建和管理Docker对象，例如image，container，network和data volumes
 
 ### Docker Image
-
-sudo gpasswd -a vagrant docker（加入docker组）
 
 > - 文件和meta data的集合
 > - 分层的，并且每一层都可以添加改变删除文件，成为一个新的image
