@@ -43,13 +43,11 @@
 
 ## Docker简介
 
-### Linux容器
-
-> 对进程进行隔离
-
 ### Docker是什么
 
-> Docker属于Linux容器的一种封装，提供简单易用的容器使用接口
+> Docker是一个开发，运输和运行应用程序的开放平台
+
+> Linux容器是基于Linux内核，对进程进行封装隔离，Docker在容器的基础上，进行进一步封装，提供简单易用的容器使用接口
 
 ### Docker的用途
 
@@ -71,9 +69,7 @@
 
 - 安装[Docker](https://docs.docker.com/v17.12/install/linux/docker-ce/centos/#install-docker-ce-1)  
 
-## Docker 架构和底层技术
-
-> Docker是一个开发，运输和运行应用程序的开放平台  
+## Docker 架构和底层技术 
 
 ![Docker Architecture](image/Docker_Architecture.png)
 
@@ -89,6 +85,7 @@
 
 > 守护程序创建和管理Docker对象，例如image，container，network和data volumes
 
+## Docker对象
 ### Docker Image
 
 > - 文件和meta data的集合
@@ -124,58 +121,79 @@
 - docker inspect [container id]
 获取container详细信息
 
-### Docker File
+#### Docker File
 
 ```bash
-#制作base image
-FROM scratch
-FROM centos
-#RUN 会生成新的分层
-RUN yum update && yum install -y vim
-#WORKDIR 指定当前目录
-#ADD 添加本地文件到工作目录并解压
-#COPY 添加本地文件到工作目录
-#ENV 设置常量
-#EXPOSE 将端口暴露出来
+# 制作base image
+FROM python:2.7-slim
+
+# 指定工作路径
+WORKDIR /app
+
+# 复制当前目录内容到指定路径
+COPY . /app
+
+# 运行命令，会生成新的分层
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
+
+# 暴露端口供外界访问
+EXPOSE 80
+
+# 定义环境变量
+ENV NAME World
+
+# 指定在容器中运行命令或提供参数
+CMD ["python", "app.py"]
 ```
+> LABEL:给镜像添加标签  
+LABEL com.example.version="0.0.1-beta"  
+LABEL vendor1="ACME Incorporated"
 
 > RUN:执行命令并创建新的Image Layer  
-> CMD:设置容器启动后默认执行的命令和参数  
-> ENTRYPOINT:设置容器启动时运行的命令
+RUN apt-get update && apt-get install -y \\  
+    package-bar \\  
+    package-baz \\  
+    package-foo 
 
-### 容器的操作
+> CMD:设置容器启动后默认执行的命令和参数  
+
+> ENTRYPOINT:设置容器启动时运行的命令，CMD则提供参数
+
+> ADD&&COPY:功能相似，ADD具有解压功能
+
+#### 容器的操作
 
 ```bash
 docker exec -it [container id] /bin/bash
 docker exec -it [container id] python
 ```
 
-## Docker Network
+### Docker Network
 
-### 常用工具
+#### 常用工具
 
 > ping ：验证ip的可达性  
 ping [ip地址]  
 > telnet：验证服务的可用性  
 telnet [ip] [port]  
 
-### 网络命名空间
+#### 网络命名空间
 
 > 容器有独立的网络命名空间，并且能相互ping通  
 > ip a查看网络
 
-### Docker Bridge
+#### Network drivers
 
+> 单机通信网络默认的三种driver 
 ![bridge](image/network.png)  
-单机通信网络默认的三种driver  
 
 ```bash
-# 只可以通过exec访问容器，其他方式无法访问
+# none只可以通过exec访问容器，其他方式无法访问
 docker run -d --name test --network none busybox /bin/sh -c "while true; do sleep 3600; done"
 ```
 
 ```bash
-# 和主机共享网络命名空间，端口会发生冲突
+# host和主机共享网络命名空间，端口会发生冲突
 docker run -d --name test --network host busybox /bin/sh -c "while true; do sleep 3600; done"
 ```
 
@@ -186,25 +204,29 @@ docker run -d --name test --network host busybox /bin/sh -c "while true; do slee
 >     docker network inspect [network id] //查看network的详细信息
 >     brctl show //查看所有bridge网络的详细信息  
 
-#### 创建自定义bridge
+##### 创建自定义bridge
 
 >     docker network create -d bridge my-bridge  //创建bridge网络
 >     docker run -d --name test3 --network my-bridge busybox /bin/sh -c "while true; do sleep 3600; done" //指定network
 >     docker network connect my-bridge test2 //加入自定义bridge的容器自动link，既可以使用名字代替ip地址
 
-### Docker link
+##### 多机器通信
+
+- overlay网络和etcd实现（有时间再研究4-10）
+
+#### Docker link
 
 >     #创建两个容器，test2容器通过--link 指定test1,在test2容器内部就可以使用test1替代test1容器的ip地址  
 >     docker run -d --name test1  busybox /bin/sh -c "while true; do sleep 3600; done"  
 >     docker run -d --name test2 --link test1 busybox /bin/sh -c "while true; do sleep 3600; done"  
 
-### Docker 容器端口本地映射
+#### Docker 容器端口本地映射
 
 >     docker run --name web -d -p 8080:80 nginx //容器80端口映射本地8080端口
 
-### 多机器通信
+### data volumes
 
-- overlay网络和etcd实现（有时间再研究4-10）
+> 详见下一章
 
 ## Docker 持久化
 
@@ -234,9 +256,9 @@ docker run -v mysql:/var/lib/mysql --name mysql2 mysql
 - 绑定挂载的Volume，具体挂载位置可以由用户指定。  
 docker run -v [本地目录]:[容器目录]
 
-### 基于plugin和Volume
+## Docker管理
 
-## Docker Compose
+### Docker Compose
 
 ```txt
 Docker Compose是一个工具  
@@ -244,9 +266,9 @@ Docker Compose是一个工具
 通过yml文件的定义去创建或者管理多个容器  
 ```
 
-### Docker Compose的安装
+#### Docker Compose的安装
 
-#### Linux环境需要单独安装
+##### Linux环境需要单独安装
 
 >     sudo curl -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose  
 
@@ -254,9 +276,9 @@ Docker Compose是一个工具
 
 >     docker-compose --version
 
-### docker-compose.yml
+#### docker-compose.yml
 
-#### 案例模板
+##### 案例模板
 
 ```bash
 version: '3'
@@ -310,7 +332,7 @@ services:
 
 ```
 
-#### 三大概念
+##### 三大概念
 
 - Services
 
@@ -322,7 +344,7 @@ Service的启动类似docker run，可以指定network和volume
 - Networks
 - Volumes
 
-### Docker Compose常用命令
+#### Docker Compose常用命令
 
 ```bash
 # 根据-f指定的yml文件启动，默认【docker-compose.yml】，可不加-f  
@@ -346,7 +368,7 @@ docker-compose stop
 docker-compose exec mysql bash  
 ```
 
-### 水平扩展和负载均衡
+#### 水平扩展和负载均衡
 
 ```bash
 采用模板2的docker-compose.yml，并把ports移除  
@@ -356,20 +378,20 @@ docker-compose up scale web=3 -d
 
 [负载均衡案例](https://github.com/kangapp/Docker/tree/master/src/lb-scale)
 
-## Docker Swarm
+### Docker Swarm
 
 > Docker Swarm是Docker引擎内置的集群管理和编排工具  
 
 ![架构](image/swarm-diagram.png)  
 ![服务和任务](image/services-diagram.png)  
 
-### 创建Docker Swarm集群
+#### 创建Docker Swarm集群
 
-#### 创建三个docker主机
+##### 创建三个docker主机
 
 todo  //三种方式  
 
-#### 搭建集群环境
+##### 搭建集群环境
 
 ![Swarm 初始化](image/Swarm_init.png)  
 
@@ -390,7 +412,7 @@ docker swarm join --token SWMTKN-1-2gdd5d7zgvq6e4pemhd4w7527a60h7nh97arxolfmuhfx
 docker node ls
 ```
 
-### 部署服务
+#### 部署服务
 
 > 使用docker service命令管理Swarm集群，只能在管理节点运行
 
@@ -427,9 +449,9 @@ docker service scale nginx=5
 docker service rm nginx  
 ```
 
-## Kubenentes(k8s)
+### Kubenentes(k8s)
 
-### 简介
+#### 简介
 
 ```bash
 Kubernetes是一个可移植，可扩展的开源平台，用于管理容器化工作负载和服务，有助于声明性配置和自动化。  
@@ -438,11 +460,11 @@ Kubernetes是一个可移植，可扩展的开源平台，用于管理容器化�
 * 便携式云平台  
 ```
 
-### k8s整体架构
+#### k8s整体架构
 
 ![k8s架构](/image/k8s_architecture.png)  
 
-### k8s Master
+#### k8s Master
 
 ![k8s master](/image/k8s_master.png)  
 
@@ -477,11 +499,11 @@ Service Account & Token Controllers：为新命名空间创建默认帐户和API
 ![k8s node](/image/k8s_node.png)  
 ![k8s流程](/image/architecture.png)  
 
-### k8s环境搭建
+#### k8s环境搭建
 
-#### Minikube搭建k8s单节点环境
+##### Minikube搭建k8s单节点环境
 
-##### 安装步骤
+###### 安装步骤
 
 * 安装[VirtualBox](https://www.virtualbox.org/wiki/Downloads)  
 
@@ -491,11 +513,11 @@ Service Account & Token Controllers：为新命名空间创建默认帐户和API
 * 安装[Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-minikube)  
 `minikube ssh  //进入虚拟机`
 
-### ReplicationController
+#### ReplicationController
 
 >     ReplicationController确保一次运行指定数量的pod副本
 
-#### 模板
+##### 模板
 
 ```bash
 apiVersion: v1
@@ -519,7 +541,7 @@ spec:
         - containerPort: 80
 ```
 
-### k8s案例
+#### k8s案例
 
 * [传送门](https://github.com/kangapp/Docker/tree/master/src/k8s_demo)
 
