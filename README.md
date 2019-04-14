@@ -404,7 +404,9 @@ docker-compose up scale web=3 -d
 
 ##### 创建三个docker主机
 
-todo  //三种方式  
+- Vagrant + Virtualbox
+- Docker Machine + Virtualbox
+- play with docker
 
 ##### 搭建集群环境
 
