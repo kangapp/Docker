@@ -80,7 +80,8 @@
 [Vagrant库](https://app.vagrantup.com/boxes/search)  
 - 其他命令:  
      vagrant status  
-     vagrant destroy
+     vagrant destroy  
+     vagrant ssh <name>
 
 - 安装[Docker](https://docs.docker.com/v17.12/install/linux/docker-ce/centos/#install-docker-ce-1)  
 
@@ -404,7 +405,7 @@ docker-compose up scale web=3 -d
 
 ##### 创建三个docker主机
 
-- Vagrant + Virtualbox
+- [Vagrant + Virtualbox](https://github.com/kangapp/Docker/tree/master/src/cluster)
 - Docker Machine + Virtualbox
 - play with docker
 
@@ -526,9 +527,40 @@ Service Account & Token Controllers：为新命名空间创建默认帐户和API
 
 * 安装[kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-binary-using-curl)  
 `kubectl cluster-info //检查集群状态`  
+`kubectl config use-context minikube //使用minikube作为context`  
+`kubectl config view  //当前config的详情`  
+`kubectl config get-contexts //查看当前存在的context`  
+`kubectl create -f pod_nginx.yml  //根据yml文件创建`  
+`kubectl get pods [-o wide] //获取pod的[详细]信息`  
+`kubectl describe pods nginx  //获取某个资源的详细描述`
 
 * 安装[Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-minikube)  
 `minikube ssh  //进入虚拟机`
+
+#### Pod  
+
+>     Kubernetes对象模型中最小的可部署对象，Pod为其组成容器提供两种共享资源：网络和存储
+
+##### Kubernetes集群中的Pod可以以两种主要方式使用
+
+- 运行单个容器的Pod
+- 运行多个需要协同工作的容器的Pod，封装由多个共址容器组成的应用程序，这些容器紧密耦合并需要共享资源
+
+##### 模板
+
+```bash
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp-pod
+  labels:
+    app: myapp
+spec:
+  containers:
+  - name: myapp-container
+    image: busybox
+    command: ['sh', '-c', 'echo Hello Kubernetes! && sleep 3600']
+```
 
 #### ReplicationController
 
