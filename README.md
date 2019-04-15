@@ -514,7 +514,24 @@ Endpoint Controller：连接Services和pods
 Service Account & Token Controllers：为新命名空间创建默认帐户和API访问令牌  
 ```
 
+#### k8s Node
+
 ![k8s node](/image/k8s_node.png)  
+
+* kubelet  
+
+```bash
+负责维持容器的生命周期，同时也负责 Volume（CVI）和网络（CNI）的管理
+```
+
+* kube-proxy  
+
+```bash
+负责为 Service 提供 cluster 内部的服务发现和负载均衡
+```
+
+#### k8s 工作流程
+
 ![k8s流程](/image/architecture.png)  
 
 #### k8s环境搭建
@@ -589,6 +606,71 @@ spec:
         ports:
         - containerPort: 80
 ```
+
+#### ReplicaSet
+
+>     ReplicaSet确保一次运行指定数量的pod副本
+
+##### 模板
+
+```bash
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: nginx
+  labels:
+    tier: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: frontend
+  template:
+    metadata:
+      name: nginx
+      labels:
+        tier: frontend
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+```
+
+#### Deployment
+
+>     为Pod和ReplicaSet提供声明性更新
+
+##### 模板
+
+```bash
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.12.2
+        ports:
+        - containerPort: 80
+```
+
+#### Service
+
+
 
 #### k8s案例
 
