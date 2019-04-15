@@ -2,7 +2,7 @@
 
 ## 目录
 
-   * [Docker](#docker)
+ * [Docker](#docker)
       * [Docker简介](#docker简介)
          * [Docker是什么](#docker是什么)
          * [Docker的用途](#docker的用途)
@@ -48,12 +48,24 @@
             * [简介](#简介)
             * [k8s整体架构](#k8s整体架构)
             * [k8s Master](#k8s-master)
+            * [k8s Node](#k8s-node)
+            * [k8s 工作流程](#k8s-工作流程)
             * [k8s环境搭建](#k8s环境搭建)
                * [Minikube搭建k8s单节点环境](#minikube搭建k8s单节点环境)
                   * [安装步骤](#安装步骤)
-            * [ReplicationController](#replicationcontroller)
+            * [Pod](#pod)
+               * [Kubernetes集群中的Pod可以以两种主要方式使用](#kubernetes集群中的pod可以以两种主要方式使用)
                * [模板](#模板)
-            * [k8s案例](#k8s案例)
+            * [ReplicationController](#replicationcontroller)
+               * [模板](#模板-1)
+            * [ReplicaSet](#replicaset)
+               * [模板](#模板-2)
+            * [Deployment](#deployment)
+               * [模板](#模板-3)
+            * [Service](#service)
+               * [模板](#模板-4)
+               * [Service主要类型](#service主要类型)
+            * [k8s详情和案例](#k8s详情和案例)
       * [实践项目](#实践项目)
 
 ## Docker简介
