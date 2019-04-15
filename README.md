@@ -670,9 +670,33 @@ spec:
 
 #### Service
 
+> Service 是对一组提供相同功能的 Pods 的抽象，并为它们提供一个统一的入口。借助 Service，应用可以方便的实现服务发现与负载均衡，并实现应用的零宕机升级。Service 通过标签来选取服务后端，一般配合 Replication Controller 或者 Deployment 来保证后端容器的正常运行。这些匹配标签的 Pod IP 和端口列表组成 endpoints，由 kube-proxy 负责将服务 IP 负载均衡到这些 endpoints 上
 
+##### 模板
 
-#### k8s案例
+```bash
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: MyApp
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 9376
+```
+
+##### Service主要类型 
+
+- ClusterIP
+> 默认类型，自动分配一个仅 cluster 内部可以访问的虚拟 IP
+- NodePort  
+- LoadBalancer
+> 在支持外部负载均衡器的云提供商上，将类型字段设置为LoadBalancer将为您的服务配置负载均衡器
+
+#### k8s详情和案例
 
 * [传送门](https://github.com/kangapp/Docker/tree/master/src/k8s_demo)
 

@@ -13,3 +13,5 @@
 >     kubectl rollout undo deployment nginx-deployment --to-revision=2  # 回滚到指定版本
 
 >     kubectl scale deployment nginx-deployment --replicas=10  # 动态伸缩pod
+
+>     kubectl edit deployment service-test  # 进入yml编辑页面
