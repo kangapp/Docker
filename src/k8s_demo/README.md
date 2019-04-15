@@ -4,6 +4,8 @@
 
 - [rc&&rs基础](https://github.com/kangapp/Docker/tree/master/src/k8s_demo/rc-rs-basic)
 
+- [Deployment基础](https://github.com/kangapp/Docker/tree/master/src/k8s_demo/Deployment)
+
 ## kubectl 常用命令
 
 >     kubectl create -f pod_ngin.yml    # 从文件创建资源  
