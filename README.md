@@ -507,7 +507,7 @@ k8s控制集群的前端组件，用于水平扩展集群
 * etcd  
 
 ```bash
-一致且高可用的键值存储，用于k8s所有集群数据的后背存储
+一致且高可用的键值存储，用于k8s所有集群数据的后备存储
 ```
 
 * Scheduler管理  
@@ -707,6 +707,41 @@ spec:
 - NodePort  
 - LoadBalancer
 > 在支持外部负载均衡器的云提供商上，将类型字段设置为LoadBalancer将为您的服务配置负载均衡器
+
+#### 存储
+
+##### Volumes
+
+###### [Type of Volumes](https://kubernetes.io/docs/concepts/storage/volumes/#types-of-volumes)
+
+- hostPath
+
+```bash
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pd
+spec:
+  containers:
+  - image: k8s.gcr.io/test-webserver
+    name: test-container
+    volumeMounts:
+    - mountPath: /test-pd
+      name: test-volume
+  volumes:
+  - name: test-volume
+    hostPath:
+      # directory location on host
+      path: /data
+      # this field is optional
+      type: Directory
+```
+
+##### Persistent Volumes
+
+###### PersistentVolume
+
+###### PersistentVolumeClaim
 
 #### k8s详情和案例
 
