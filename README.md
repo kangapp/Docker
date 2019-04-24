@@ -742,7 +742,11 @@ spec:
 
 ###### PersistentVolume
 
+> PV描述的是持久化存储数据卷，这个api对象主要定义的是一个持久化存储在宿主机上的目录，比如一个NFS的挂载目录
+
 ###### PersistentVolumeClaim
+
+> PVC描述的是Pod所希望使用的持久化存储的属性
 
 #### k8s详情和案例
 
